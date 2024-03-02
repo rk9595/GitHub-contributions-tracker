@@ -37,7 +37,6 @@ def extract_commit_data(events):
 def main():
     events = fetch_events(username, token)
     commits_df = extract_commit_data(events)
-    print(commits_df)
     
 
 if __name__ == "__main__":

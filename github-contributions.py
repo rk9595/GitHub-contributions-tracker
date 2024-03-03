@@ -25,6 +25,7 @@ def extract_commit_data(events):
         if event['type'] == 'PushEvent':
             repo_name = event['repo']['name']
             for commit in event['payload']['commits']:
+                print("commit", commit)
                 commits_data.append({
                     'Repository': repo_name,
                     'Commit Message': commit['message'],
@@ -37,7 +38,10 @@ def extract_commit_data(events):
 def main():
     events = fetch_events(username, token)
     commits_df = extract_commit_data(events)
-    
+    # Save to CSV
+    csv_filename = 'github_contributions.csv'
+    commits_df.to_csv(csv_filename, index=False)
+    print(f"Contributions saved to {csv_filename}")
 
 if __name__ == "__main__":
     main()

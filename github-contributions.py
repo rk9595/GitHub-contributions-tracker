@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
 
@@ -50,9 +50,10 @@ def generate_intervals(start_month, interval_months):
     return intervals
 
 def main():
-    # Example inputs; replace with user input if necessary
-    start_month = int(input("Enter the start month (1-12): "))
-    interval_months = int(input("Enter the interval length in months: "))
+    # Automatically set start month to 4 months before the current month
+    current_month = datetime.now().month
+    start_month = ((current_month - 5) % 12) + 1
+    interval_months = 4  # Default interval length
     
     intervals = generate_intervals(start_month, interval_months)
     repositories = get_repositories(username, token)

@@ -4,7 +4,7 @@
 
 GitHub Contributions Tracker is a Python script designed for developers to fetch and analyze their contributions on GitHub over specific intervals. This tool is especially useful for generating reports for performance reviews, showcasing your work, or simply keeping track of your contributions.
 
-## Features
+## Featureshttps://support.apple.com/en-in/111788
 
 - Fetch all pull requests made by a user across all repositories.
 - Filter contributions by custom intervals (e.g., every 4 months).

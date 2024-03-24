@@ -4,7 +4,7 @@
 
 GitHub Contributions Tracker is a Python script designed for developers to fetch and analyze their contributions on GitHub over specific intervals. This tool is especially useful for generating reports for performance reviews, showcasing your work, or simply keeping track of your contributions.
 
-## Featureshttps://support.apple.com/en-in/111788
+## Features
 
 - Fetch all pull requests made by a user across all repositories.
 - Filter contributions by custom intervals (e.g., every 4 months).
@@ -15,8 +15,11 @@ GitHub Contributions Tracker is a Python script designed for developers to fetch
 - Python 3.6 or newer
 - `requests` and `pandas` libraries
 - A GitHub Personal Access Token
+- Docker (for Docker usage)
 
 ## Installation
+
+### Standard Installation
 
 Clone this repository to your local machine.
 
@@ -30,23 +33,46 @@ Install required Python packages:
 pip install requests pandas python-dotenv
 ```
 
+### Docker Installation
+
+Ensure Docker is installed and running on your machine. Build the Docker image with:
+
+```bash
+docker-compose build
+```
+
+## Configuration
+
 Set up your GitHub Personal Access Token (PAT) as environment variables:
 
-- On Linux/macOS:
+- **Without Docker:**
 
-  ```bash
-  export GITHUB_USERNAME='your_github_username'
-  export GITHUB_TOKEN='your_pat_token'
-  ```
+  - On Linux/macOS:
 
-- On Windows:
+    ```bash
+    export GITHUB_USERNAME='your_github_username'
+    export GITHUB_TOKEN='your_pat_token'
+    ```
 
-  ```cmd
-  set GITHUB_USERNAME=your_github_username
-  set GITHUB_TOKEN=your_pat_token
+  - On Windows:
+
+    ```cmd
+    set GITHUB_USERNAME=your_github_username
+    set GITHUB_TOKEN=your_pat_token
+    ```
+
+- **With Docker:**
+
+  Create a `.env` file in the same directory as your `docker-compose.yml` with the following contents:
+
+  ```env
+  GITHUB_USERNAME=your_username
+  GITHUB_TOKEN=your_token
   ```
 
 ## Usage
+
+### Standard Usage
 
 To run the script with default settings (analyzing the contributions last 4 months):
 
@@ -62,7 +88,13 @@ You can specify the start month and interval length using command-line arguments
 python3 github_contributions.py --start-month 1 --interval-months 6
 ```
 
-This command fetches contributions starting from January, with intervals every 6 months.
+### Docker Usage
+
+To run the script using Docker, after configuring your `.env` file:
+
+```bash
+docker-compose up
+```
 
 ### Output
 
@@ -70,7 +102,7 @@ The script outputs a CSV file (`github_contributions_intervals.csv`) with the pu
 
 ## Contributing
 
-I welcome contributions! Please feel free to submit pull requests, report bugs, and suggest features via the issue tracker.
+Contributions are welcome! Please feel free to submit pull requests, report bugs, and suggest features via the issue tracker.
 
 ## License
 

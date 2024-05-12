@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 def setup_argparse():
     """Set up argparse for command line arguments."""
     parser = argparse.ArgumentParser(description='Fetch GitHub contributions over a specified duration in months.')
-    parser.add_argument('--duration-months', type=int, default=12,
+    parser.add_argument('--duration-months', type=int, default=4,
                         help='Duration in months for which to fetch the contributions (default: 12 months)')
     return parser.parse_args()
 

@@ -5,6 +5,8 @@ import argparse
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
+import csv
+
 
 def setup_argparse():
     """Set up argparse for command line arguments."""
@@ -52,6 +54,7 @@ def generate_intervals(duration_months):
     start_date = end_date - relativedelta(months=duration_months)
     return [(start_date, end_date)]
 
+
 def main():
     """Main function to fetch and save GitHub contributions for a specified duration."""
     args = setup_argparse()
@@ -68,24 +71,36 @@ def main():
     repositories = get_repositories(username, session)
     all_pr_data = []
 
+    # Assuming there is only one interval for simplification
+    start_date, end_date = intervals[0]
+    interval_description = f"# Interval: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
+
     for repo in repositories:
         repo_name = repo['name']
-        for start_date, end_date in intervals:
-            pull_requests = get_pull_requests_for_repo(username, repo_name, session, start_date)
-            for pr in pull_requests:
-                pr_merged_at = datetime.strptime(pr['merged_at'], '%Y-%m-%dT%H:%M:%SZ')
-                if start_date <= pr_merged_at <= end_date:
-                    all_pr_data.append({
-                        'Interval': f"{start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}",
-                        'Repository': repo_name,
-                        'Pull Request Title': pr['title'],
-                        'Date Merged': pr['merged_at']
-                    })
+        pull_requests = get_pull_requests_for_repo(username, repo_name, session, start_date)
+        for pr in pull_requests:
+            pr_merged_at = datetime.strptime(pr['merged_at'], '%Y-%m-%dT%H:%M:%SZ')
+            if start_date <= pr_merged_at <= end_date:
+                all_pr_data.append({
+                    'Repository': repo_name,
+                    'Pull Request Title': pr['title'],
+                    'Date Merged': pr['merged_at'],
+                    'Description': pr.get('body', '')  # Get description, default to empty string if not present
+                })
 
-    pr_df = pd.DataFrame(all_pr_data)
     csv_filename = 'github_contributions.csv'
-    pr_df.to_csv(csv_filename, index=False)
+    with open(csv_filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        file.write(f"{interval_description}\n")  # Write the interval description as a comment
+        # Write headers
+        headers = ['Repository', 'Pull Request Title', 'Date Merged', 'Description']
+        writer.writerow(headers)
+        # Write data rows
+        for item in all_pr_data:
+            writer.writerow([item['Repository'], item['Pull Request Title'], item['Date Merged'], item['Description']])
+
     print(f"Contributions saved to {csv_filename}")
 
 if __name__ == "__main__":
     main()
+

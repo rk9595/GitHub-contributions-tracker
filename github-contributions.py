@@ -91,7 +91,7 @@ def main():
     csv_filename = 'github_contributions.csv'
     with open(csv_filename, 'w', newline='') as file:
         writer = csv.writer(file)
-        file.write(f"{interval_description}\n")  # Write the interval description as a comment
+        file.write(f"{interval_description}\n") 
         # Write headers
         headers = ['Repository', 'Pull Request Title', 'Date Merged', 'Description']
         writer.writerow(headers)

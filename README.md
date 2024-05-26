@@ -82,10 +82,10 @@ python3 github_contributions.py
 
 ### Customizing Intervals
 
-You can specify the start month and interval length using command-line arguments:
+You can specify the duration in months using command-line arguments:
 
 ```bash
-python3 github_contributions.py --start-month 1 --interval-months 6
+python3 github_contributions.py --duration-months 6
 ```
 
 ### Docker Usage
